@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fault Diagnosis and Classification</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#diagnoseForm").submit(function (event) {
+          event.preventDefault();
+          var formData = new FormData(this);
+
+          $.ajax({
+            url: "/diagnose",
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              $("#predictions").text("Predictions: " + response.predictions);
+              $("#accuracy").text(
+                "Accuracy: " + response.accuracy.toFixed(2) + "%"
+              );
+              $("#recall").text("Recall: " + response.recall.toFixed(4));
+              $("#f1_score").text("F1-score: " + response.f1_score.toFixed(4));
+              $("#precision").text(
+                "Precision: " + response.precision.toFixed(4)
+              );
+              $("#confusion_matrix").text(
+                "Confusion Matrix: " + JSON.stringify(response.confusion_matrix)
+              );
+            },
+            error: function () {
+              alert("Error occurred during diagnosis.");
+            },
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Fault Diagnosis and Classification</h1>
+    <form id="diagnoseForm" enctype="multipart/form-data">
+      <label for="file">Upload fault7_input.csv:</label>
+      <input type="file" id="file" name="file" accept=".csv" required /><br />
+      <button type="submit">Diagnose</button>
+    </form>
+    <h2>Diagnosis Results:</h2>
+    <p id="predictions"></p>
+    <p id="accuracy"></p>
+    <p id="recall"></p>
+    <p id="f1_score"></p>
+    <p id="precision"></p>
+    <p id="confusion_matrix"></p>
+  </body>
+</html>
