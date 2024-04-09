@@ -22,7 +22,10 @@
             processData: false,
             contentType: false,
             success: function (response) {
-              $("#predictions").text("Predictions: " + response.predictions);
+              var prediction = response.predictions[0];
+              $("#prediction").text("Prediction: " + prediction);
+              $("#fault-description").text(getFaultDescription(prediction));
+              $("#fault-type").text(getFaultType(prediction));
             },
             error: function () {
               alert("Error occurred during diagnosis.");
@@ -30,6 +33,58 @@
           });
         });
       });
+
+      function getFaultDescription(faultId) {
+        var faultDescriptions = {
+          1: "A/C Feed ratio, B Composition constant",
+          2: "B Composition, A/C Ratio constant",
+          3: "D Feed temperature",
+          4: "Reactor cooling water inlet temperature",
+          5: "Condenser cooling water inlet temperature",
+          6: "A Feed loss",
+          7: "C Header pressure loss - reduced availability",
+          8: "A, B, C Feed composition",
+          9: "D Feed temperature",
+          10: "C Feed temperature",
+          11: "Reactor cooling water inlet temperature",
+          12: "Condenser cooling water inlet temperature",
+          13: "Reaction kinetics",
+          14: "Reactor cooling water valve",
+          15: "Condenser cooling water valve",
+          16: "Unknown",
+          17: "Unknown",
+          18: "Unknown",
+          19: "Unknown",
+          20: "Unknown",
+        };
+        return faultDescriptions[faultId] || "Unknown";
+      }
+
+      function getFaultType(faultId) {
+        var faultTypes = {
+          1: "Step",
+          2: "Step",
+          3: "Step",
+          4: "Step",
+          5: "Step",
+          6: "Step",
+          7: "Step",
+          8: "Random variation",
+          9: "Random variation",
+          10: "Random variation",
+          11: "Random variation",
+          12: "Random variation",
+          13: "Slow drift",
+          14: "Sticking",
+          15: "Sticking",
+          16: "Random variation",
+          17: "Random variation",
+          18: "Step",
+          19: "Random variation",
+          20: "Random variation",
+        };
+        return faultTypes[faultId] || "Unknown";
+      }
     </script>
   </head>
   <body class="bg-gray-100">
@@ -37,30 +92,50 @@
       <h1 class="text-3xl font-bold mb-4">
         Fault Diagnosis and Classification
       </h1>
-      <form id="diagnoseForm" enctype="multipart/form-data" class="mb-8">
-        <div class="mb-4">
-          <label for="file" class="block mb-2 font-bold"
-            >Upload fault7_input.csv:</label
-          >
-          <input
-            type="file"
-            id="file"
-            name="file"
-            accept=".csv"
-            required
-            class="border border-gray-300 rounded-md px-4 py-2 w-full"
+      <div class="grid grid-cols-2 gap-8">
+        <div>
+          <form id="diagnoseForm" enctype="multipart/form-data" class="mb-8">
+            <div class="mb-4">
+              <label for="file" class="block mb-2 font-bold"
+                >Upload fault7_input.csv:</label
+              >
+              <input
+                type="file"
+                id="file"
+                name="file"
+                accept=".csv"
+                required
+                class="border border-gray-300 rounded-md px-4 py-2 w-full"
+              />
+            </div>
+            <button
+              type="submit"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Diagnose
+            </button>
+          </form>
+          <div class="bg-white shadow-md rounded-md p-6">
+            <h2 class="text-xl font-bold mb-4">Diagnosis Results:</h2>
+            <p id="prediction" class="mb-2"></p>
+            <p id="fault-description" class="mb-2"></p>
+            <p id="fault-type" class="mb-2"></p>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-4">Process Flow Diagram:</h2>
+          <img
+            src="{{ url_for('static', filename='image2.png') }}"
+            alt="Process Flow Diagram"
+            class="mb-8"
+          />
+          <h2 class="text-xl font-bold mb-4">Fault Description:</h2>
+          <img
+            src="{{ url_for('static', filename='image1.png') }}"
+            alt="Fault Description"
+            class="mb-8"
           />
         </div>
-        <button
-          type="submit"
-          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-        >
-          Diagnose
-        </button>
-      </form>
-      <div class="bg-white shadow-md rounded-md p-6">
-        <h2 class="text-xl font-bold mb-4">Diagnosis Results:</h2>
-        <p id="predictions" class="mb-2"></p>
       </div>
     </div>
   </body>
