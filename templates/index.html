@@ -8,6 +8,10 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
@@ -97,7 +101,8 @@
           <form id="diagnoseForm" enctype="multipart/form-data" class="mb-8">
             <div class="mb-4">
               <label for="file" class="block mb-2 font-bold"
-                >Upload fault7_input.csv:</label
+                ><i class="fas fa-file-csv mr-2"></i>Upload
+                fault7_input.csv:</label
               >
               <input
                 type="file"
@@ -112,28 +117,39 @@
               type="submit"
               class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
             >
-              Diagnose
+              <i class="fas fa-cogs mr-2"></i>Diagnose
             </button>
           </form>
           <div class="bg-white shadow-md rounded-md p-6">
-            <h2 class="text-xl font-bold mb-4">Diagnosis Results:</h2>
-            <p id="prediction" class="mb-2"></p>
-            <p id="fault-description" class="mb-2"></p>
-            <p id="fault-type" class="mb-2"></p>
+            <h2 class="text-xl font-bold mb-4">
+              <i class="fas fa-chart-bar mr-2"></i>Diagnosis Results:
+            </h2>
+            <p id="prediction" class="mb-2">
+              <i class="fas fa-exclamation-circle mr-2"></i>Prediction:
+            </p>
+            <p id="fault-description" class="mb-2">
+              <i class="fas fa-info-circle mr-2"></i>Description:
+            </p>
+            <p id="fault-type" class="mb-2">
+              <i class="fas fa-wrench mr-2"></i>Type:
+            </p>
           </div>
         </div>
         <div>
-          <h2 class="text-xl font-bold mb-4">Process Flow Diagram:</h2>
-          <img
-            src="{{ url_for('static', filename='image2.png') }}"
-            alt="Process Flow Diagram"
-            class="mb-8"
-          />
-          <h2 class="text-xl font-bold mb-4">Fault Description:</h2>
+          <h2 class="text-xl font-bold mb-4">
+            <i class="fas fa-table mr-2"></i>Fault Description:
+          </h2>
           <img
             src="{{ url_for('static', filename='image1.png') }}"
             alt="Fault Description"
             class="mb-8"
+          />
+          <h2 class="text-xl font-bold mb-4">
+            <i class="fas fa-sitemap mr-2"></i>Process Flow Diagram:
+          </h2>
+          <img
+            src="{{ url_for('static', filename='image2.png') }}"
+            alt="Process Flow Diagram"
           />
         </div>
       </div>
